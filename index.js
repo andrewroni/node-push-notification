@@ -1,32 +1,19 @@
-const express = require('express');
-const webpush = require('web-push');
+const express    = require('express');
+const webpush    = require('web-push');
+const hbs        = require('hbs');
+const jade       = require('jade');
+const ejs        = require('ejs');
 const bodyParser = require('body-parser');
-const path = require('path');
+const path       = require('path');
+
+const routes     = require('./routes/routes');
 
 const app = express();
+const publicPath = path.join(__dirname, 'public');
 
-app.use(express.static(path.join(__dirname, 'client')));
-app.use(bodyParser.json());
-
-const publicVapidKey = 'BOOWqsNASgwet21Mbu5dHgU7b3vticipQJDQBWp4r417UdxkcP5guTH082V_51dqSkFj7gPMKfBYJI-zrU-YE34';
-const privateVapidKey = '8v7VrYIoSyb2KSF9Y01FjArQkhTykxfppSGkM0KHYU8';
-
-webpush.setVapidDetails('mailtp:ron3trade@gmail.com', publicVapidKey, privateVapidKey);
-
-// Cubscribe Route
-app.post('/subscribe', (req ,res) => {
-  //Get pushSubscription object
-  const subscription = req.body;
-
-  // Send status 201 - res created!
-  res.status(201).json({});
-
-  // Create payload
-  const payload = JSON.stringify({ title: 'Push Test'});
-
-  // Pass object into sendNotification
-  webpush.sendNotification(subscription, payload).catch(err => console.error(err));
-});
+app.set('view engine', 'hbs');
+app.use(express.static(publicPath));
+app.use(routes);
 
 const port = 5000;
 app.listen(port, () => console.log(`Server started at port: ${port}`));

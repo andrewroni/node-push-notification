@@ -1,4 +1,6 @@
+console.log('client.js loaded..');
 const publicVapidKey = 'BOOWqsNASgwet21Mbu5dHgU7b3vticipQJDQBWp4r417UdxkcP5guTH082V_51dqSkFj7gPMKfBYJI-zrU-YE34';
+
 
 // Check for Service Worker
 if ('serviceWorker' in navigator) {
